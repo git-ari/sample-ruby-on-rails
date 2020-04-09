@@ -1,0 +1,336 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Blog API",
+    "description": "Sample Ruby On Rails",
+    "version": "v1"
+  },
+  "paths": {
+    "/posts": {
+      "post": {
+        "summary": "Creates a post",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Creates a new post from provided data",
+        "operationId": "createPost",
+        "parameters": [
+
+        ],
+        "responses": {
+          "201": {
+            "description": "post created",
+            "content": {
+            }
+          },
+          "422": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errors_object"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/post"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Searches posts",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Searches posts by keywords",
+        "operationId": "searchPosts",
+        "parameters": [
+          {
+            "name": "keywords",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "406": {
+            "description": "Unsupported Accept Header",
+            "content": {
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Retrieves a post",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Retrieves a specific post by id",
+        "operationId": "getPost",
+        "responses": {
+          "200": {
+            "description": "post found",
+            "headers": {
+              "ETag": {
+                "type": "string"
+              },
+              "Last-Modified": {
+                "type": "string"
+              },
+              "Cache-Control": {
+                "type": "string"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "id": 1,
+                "title": "Hello world!",
+                "content": "Hello world and hello universe. Thank you all very much!!!",
+                "thumbnail": "thumbnail.png"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/post"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}/upload": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "summary": "Uploads a post thumbnail",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Upload a thumbnail for specific post by id",
+        "operationId": "uploadThumbnailPost",
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "post updated",
+            "content": {
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "file"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments": {
+      "post": {
+        "summary": "Creates a comment",
+        "tags": [
+          "Comments"
+        ],
+        "description": "Creates a new comment from provided data",
+        "operationId": "createComment",
+        "parameters": [
+
+        ],
+        "responses": {
+          "201": {
+            "description": "post created",
+            "content": {
+            }
+          },
+          "422": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errors_object"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/post"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Returns all comments",
+        "tags": [
+          "Comments"
+        ],
+        "description": "Returns all comments",
+        "operationId": "getComments",
+        "responses": {
+          "406": {
+            "description": "Unsupported Accept Header",
+            "content": {
+            }
+          }
+        }
+      }
+    },
+    "/comments/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Retrieves a comment",
+        "tags": [
+          "Comments"
+        ],
+        "description": "Retrieves a specific post by id",
+        "operationId": "getComment",
+        "responses": {
+          "200": {
+            "description": "post found",
+            "headers": {
+              "ETag": {
+                "type": "string"
+              },
+              "Last-Modified": {
+                "type": "string"
+              },
+              "Cache-Control": {
+                "type": "string"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "id": 1,
+                "title": "Hello world!",
+                "content": "Hello world and hello universe. Thank you all very much!!!",
+                "thumbnail": "thumbnail.png"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/post"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Comment not found",
+            "content": {
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "errors_object": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "$ref": "#/definitions/errors_map"
+        }
+      }
+    },
+    "errors_map": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "post": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "thumbnail": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "title"
+      ]
+    },
+    "comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "content"
+      ]
+    }
+  }
+}
