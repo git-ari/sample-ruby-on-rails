@@ -38,6 +38,9 @@ rails rswag
 
 ## How to run the test suite
 
+```sh
+bundle exec rspec
+```
 ## Deployment instructions
 
 To deploy the the server:
@@ -45,6 +48,17 @@ To deploy the the server:
 rails server
 ```
 
+```sh
+docker-compose run web rake db:create
+```
+
+```sh
+docker build -t web .
+```
+
+```sh
+docker-compose up
+```
 ## Debugging
 
 It can be debugged in [Visual Studio Code], the `launch.json` has the necessary configuration.

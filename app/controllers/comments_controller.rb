@@ -13,6 +13,12 @@ class CommentsController < ApplicationController
     render json: @comment
   end
 
+  # GET /comments/post/1
+  def show_by_post
+    @comments = Comment.where(post_id: params[:id]).to_a
+    render json: @comments
+  end
+
   # POST /comments
   def create
     @comment = Comment.new(comment_params)
@@ -46,6 +52,6 @@ class CommentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def comment_params
-      params.require(:comment).permit(:content, :created_on)
+      params.require(:comment).permit(:body, :post_id)
     end
 end

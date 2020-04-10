@@ -5,7 +5,7 @@ RSpec.describe 'Blog API', type: :request, swagger_doc: 'v1/swagger.json' do
   path '/posts' do
     post 'Creates a post' do
       tags 'Posts'
-      description 'Creates a new post from provided data'
+      description 'Creates a new post'
       operationId 'createPost'
       consumes 'application/json'
       produces 'application/json'
@@ -180,6 +180,60 @@ RSpec.describe 'Blog API', type: :request, swagger_doc: 'v1/swagger.json' do
 
       response '404', 'Comment not found' do
         let(:id) { 'invalid' }
+        run_test!
+      end
+    end
+  end
+
+  path '/comments/post/{id}' do
+    parameter name: :id, in: :path, type: :string
+
+    let(:id) { post.id }
+    let(:comment) { Comment.create(title: 'foo', content: 'bar', thumbnail: 'thumbnail.png') }
+
+    get 'Retrieves the comments by post' do
+      tags 'Comments'
+      description 'Retrieves the comments of a specific post by id'
+      operationId 'show_by_post'
+      produces 'application/json'
+
+      response '200', 'Comments found' do
+        schema '$ref' => '#/definitions/comment'
+
+        # examples 'application/json' => {
+        #   id: 1,
+        #   title: 'Hello world!',
+        #   content: 'Hello world and hello universe. Thank you all very much!!!',
+        #   thumbnail: 'thumbnail.png'
+        # }
+
+        run_test!
+      end
+
+      # response '404', 'Comment not found' do
+      #   let(:id) { 'invalid' }
+      #   run_test!
+      # end
+    end
+  end
+
+  path '/triangle/{a}/{b}/{c}' do
+
+    parameter name: :a, in: :path, type: :string
+    parameter name: :b, in: :path, type: :string
+    parameter name: :c, in: :path, type: :string
+
+    get 'Determinates type of triangle' do
+      tags 'Triangle'
+      description 'Determinates what type of triangle it is'
+      operationId 'determineType'
+      produces 'application/json'
+
+      response '200', 'Triangle Type Found' do
+
+        examples 'application/json' => {
+            result: 'Scalene / Equilateral / Isosceles / Incorrect'
+        }
         run_test!
       end
     end

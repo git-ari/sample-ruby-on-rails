@@ -10,6 +10,9 @@ RSpec.describe CommentsController, type: :routing do
       expect(get: "/comments/1").to route_to("comments#show", id: "1")
     end
 
+    it "routes to #show_by_post" do
+      expect(get: "/comments/post/1").to route_to("comments#show_by_post", id: "1")
+    end
 
     it "routes to #create" do
       expect(post: "/comments").to route_to("comments#create")

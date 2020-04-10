@@ -273,6 +273,99 @@
           }
         }
       }
+    },
+    "/comments/post/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Retrieves the comments by post",
+        "tags": [
+          "Comments"
+        ],
+        "description": "Retrieves the comments of a specific post by id",
+        "operationId": "show_by_post",
+        "responses": {
+          "200": {
+            "description": "Comments found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/triangle/{a}/{b}/{c}": {
+      "parameters": [
+        {
+          "name": "a",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "b",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "c",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Determinates type of triangle",
+        "tags": [
+          "Triangle"
+        ],
+        "description": "Determinates what type of triangle it is",
+        "operationId": "determineType",
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Type Found",
+            "examples": {
+              "application/json": {
+                "result": "Scalene / Equilateral / Isosceles"
+              }
+            },
+            "content": {
+            }
+          },
+          "409": {
+            "description": "Incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/errors_object"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
