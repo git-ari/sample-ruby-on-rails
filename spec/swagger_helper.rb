@@ -41,18 +41,18 @@ RSpec.configure do |config|
           properties: {
             id: { type: 'integer' },
             title: { type: 'string' },
-            content: { type: 'string', 'x-nullable': true },
-            thumbnail: { type: 'string', 'x-nullable': true}
+            content: { type: 'string' },
+            thumbnail: { type: 'string', nullable: true}
           },
-          required: [ 'id', 'title' ]
+          required: [ 'id', 'title', 'content' ]
         },
         comment: {
           type: 'object',
           properties: {
             id: { type: 'integer' },
-            content: { type: 'string', 'x-nullable': true },
+            body: { type: 'string' },
           },
-          required: [ 'id', 'content' ]
+          required: [ 'id', 'body' ]
         }
       }
       # securityDefinitions: {

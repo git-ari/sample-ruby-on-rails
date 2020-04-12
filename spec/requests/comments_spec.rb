@@ -17,11 +17,13 @@ RSpec.describe "/comments", type: :request do
   # Comment. As you add validations to Comment, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    # body = :body, post_id = :post_id
+    {body: 'body content', post_id: 1}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {body: nil, post_id: nil}
+    # skip("Add a hash of attributes invalid for your model")
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -29,7 +31,7 @@ RSpec.describe "/comments", type: :request do
   # CommentsController, or in your router and rack
   # middleware. Be sure to keep this updated too.
   let(:valid_headers) {
-    {}
+    {content_type: "application/json"}
   }
 
   describe "GET /index" do
@@ -48,6 +50,14 @@ RSpec.describe "/comments", type: :request do
     end
   end
 
+  describe "GET /show_by_post" do
+    it "renders a successful response" do
+      comment = Comment.create! valid_attributes
+      get comment_url(comment), as: :json
+      expect(response).to be_successful
+    end
+  end
+  
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Comment" do
@@ -77,7 +87,7 @@ RSpec.describe "/comments", type: :request do
         post comments_url,
              params: { comment: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
@@ -85,23 +95,17 @@ RSpec.describe "/comments", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {body: 'Updated body', post_id: 2}
       }
 
       it "updates the requested comment" do
         comment = Comment.create! valid_attributes
         patch comment_url(comment),
-              params: { comment: invalid_attributes }, headers: valid_headers, as: :json
+              params: { id: comment.to_param, comment: new_attributes }, headers: valid_headers, as: :json
         comment.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "renders a JSON response with the comment" do
-        comment = Comment.create! valid_attributes
-        patch comment_url(comment),
-              params: { comment: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq("application/json")
+        new_attributes.each_pair do |key, value|
+          expect(comment[key]).to eq(value)
+        end
       end
     end
 
@@ -111,7 +115,7 @@ RSpec.describe "/comments", type: :request do
         patch comment_url(comment),
               params: { comment: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :posts
   get '/comments/post/:id', to: 'comments#show_by_post'
   put '/posts/:id/upload', to: 'posts#upload'
-  get '/triangle/:a/:b/:c', to: 'triangles#calculate'
+  get '/triangles/:a/:b/:c', to: 'triangles#calculate', as: :triangles
 
   # post 'auth-tests/basic', to: 'auth_tests#basic'
   # post 'auth-tests/api-key', to: 'auth_tests#api_key'

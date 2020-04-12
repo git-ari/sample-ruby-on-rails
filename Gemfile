@@ -39,6 +39,7 @@ group :development, :test do
 
   # Debugging
   gem 'readapt'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :development do

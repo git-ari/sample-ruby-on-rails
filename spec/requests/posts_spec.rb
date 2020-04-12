@@ -17,11 +17,11 @@ RSpec.describe "/posts", type: :request do
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {title: "title", content: 'body content'}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {title: nil, content: nil}
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -29,7 +29,7 @@ RSpec.describe "/posts", type: :request do
   # PostsController, or in your router and rack
   # middleware. Be sure to keep this updated too.
   let(:valid_headers) {
-    {}
+    {content_type: "application/json"}
   }
 
   describe "GET /index" do
@@ -77,7 +77,7 @@ RSpec.describe "/posts", type: :request do
         post posts_url,
              params: { post: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end
@@ -85,23 +85,17 @@ RSpec.describe "/posts", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {title: "Updated title", content: "Updated content"}
       }
 
       it "updates the requested post" do
         post = Post.create! valid_attributes
         patch post_url(post),
-              params: { post: invalid_attributes }, headers: valid_headers, as: :json
+              params: { id: post.to_param, post: new_attributes }, headers: valid_headers, as: :json
         post.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "renders a JSON response with the post" do
-        post = Post.create! valid_attributes
-        patch post_url(post),
-              params: { post: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq("application/json")
+        new_attributes.each_pair do |key, value|
+          expect(post[key]).to eq(value)
+        end
       end
     end
 
@@ -111,7 +105,7 @@ RSpec.describe "/posts", type: :request do
         patch post_url(post),
               params: { post: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
   end

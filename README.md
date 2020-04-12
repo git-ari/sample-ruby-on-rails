@@ -1,16 +1,15 @@
 # sample-ruby-on-rails
 
-This is a study case of a Blog REST API in [Ruby] using [Ruby on Rails] framework with [PostgreSQL] database. For testing and documentation, [Swagger] was implemented at http://localhost:3000/api-docs.
+This is a study case of a Blog REST API in [Ruby] using [Ruby on Rails] framework with [PostgreSQL] database. For testing and documentation, [Swagger] was implemented at http://localhost:3000/api-docs using the [rswag]. Tests were implemented using [RSpec]. Working on the [Docker] configuration and after deploy it to [Heroku].
 
 ## System dependencies
 
  - [Ruby] Version 2.6
  - [Ruby on Rails]
  - [PostgreSQL] 10
+ - [Docker]
 
 ## Configuration
-
-## Database creation
 
 To create the databases for the several environments:
 ```sh
@@ -33,7 +32,7 @@ rake rswag:specs:swaggerize
 
 or
 
-rails rswag
+RAILS_ENV=test rails rswag
 ```
 
 ## How to run the test suite
@@ -86,13 +85,12 @@ Update Rails
 gem update rails
 ```
 
-Generate documentation
-```sh
-rake swagger:docs
-```
-
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+[Docker]: <https://www.docker.com/>
+[Heroku]: <https://www.heroku.com/>
 [OpenApi]: <https://www.openapis.org/>
 [PostgreSQL]: <https://www.postgresql.org/>
+[RSpec]: <https://rspec.info/>
 [rswag]: <https://github.com/rswag/rswag>
 [Ruby]: <https://www.ruby-lang.org/en/>
 [Ruby On Rails]: <https://rubyonrails.org/>
