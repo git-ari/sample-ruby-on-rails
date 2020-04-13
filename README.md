@@ -59,7 +59,13 @@ Deploy the server on [Docker] after the database is created
 ```sh
 docker-compose up --build
 ```
+> It doesn't work on windows because of this https://github.com/docker-library/postgres/issues/435
 
+Docker variables
+```yml
+development:
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?' ) %>
+```
 ## Debugging
 
 It can be debugged in [Visual Studio Code], the `launch.json` has the necessary configuration.

@@ -4,17 +4,13 @@ default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  host: db
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  # host: db
+  username: <%= ENV['POSTGRES_USER'] || 'blog' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || 'password1' %>
 
 development:
   <<: *default
   database: blog_api_dev
-
-# For future reference
-# development:
-#   url: <%= ENV['DATABASE_URL'].gsub('?', '_development?' ) %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
