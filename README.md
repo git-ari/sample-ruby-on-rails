@@ -11,7 +11,7 @@ This is a study case of a Blog REST API in [Ruby] using [Ruby on Rails] framewor
 
 ## Configuration
 
-To create the databases for the several environments:
+To create the databases for the several environments
 ```sh
 rake db:setup
 ```
@@ -42,21 +42,29 @@ bundle exec rspec
 ```
 ## Deployment instructions
 
-To deploy the the server:
+Deploy the server locally
 ```sh
 rails server
 ```
 
+Deploy the server on [Docker]
 ```sh
-docker-compose run web rake db:create
+docker-compose up --detach
+docker-compose exec web bundle exec rake db:setup db:migrate
 ```
 
-```sh
-docker build -t web .
-```
+> It is available at  http://localhost:3000 and [Swagger] at http://localhost:3000/api-docs
 
+Deploy the server on [Docker] after the database is created
 ```sh
-docker-compose up
+docker-compose up --build
+```
+> It doesn't work on windows because of this https://github.com/docker-library/postgres/issues/435
+
+Docker variables
+```yml
+development:
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?' ) %>
 ```
 ## Debugging
 
@@ -83,6 +91,25 @@ MIT License
 Update Rails
 ```sh
 gem update rails
+```
+
+It will also create a database under the supplied username which can be used to connect to in rails console
+```sh
+docker-compose exec postgres psql -U postgres
+```
+
+To stop [Docker] containers
+```sh
+docker-compose stop
+```
+
+To clean [Docker] containers, images and build cache
+```sh
+docker system prune
+```
+
+```sh
+docker-compose run web rake db:create
 ```
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
